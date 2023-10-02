@@ -60,6 +60,7 @@ public class InternalCallV1Test {
         }
 
         private void printTxInfo() {
+            // 트랜잭션이 시작되는가에 대한 boolean 값
             boolean txActive = TransactionSynchronizationManager.isActualTransactionActive();
             log.info("tx active={}", txActive);
             boolean readOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
