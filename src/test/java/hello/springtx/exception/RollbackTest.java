@@ -16,6 +16,7 @@ public class RollbackTest {
 
     @Test
     void runtimeException() {
+        // 런타임 예외가 터지면 롤백한다.
         service.runtimeException();
     }
 
