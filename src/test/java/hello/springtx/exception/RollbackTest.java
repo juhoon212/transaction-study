@@ -1,6 +1,7 @@
 package hello.springtx.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +18,30 @@ public class RollbackTest {
     @Test
     void runtimeException() {
         // 런타임 예외가 터지면 롤백한다.
-        service.runtimeException();
+        Assertions.assertThatThrownBy(() -> {
+            service.runtimeException();
+        }).isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    void checkedException() {
+        // 런타임 예외가 터지면 롤백한다.
+        Assertions.assertThatThrownBy(() -> {
+            service.checkedException();
+        }).isInstanceOf(MyException.class);
+    }
+
+    @Test
+    void rollbackFor() {
+
+        Assertions.assertThatThrownBy(() -> {
+            service.rollbackFor();
+        }).isInstanceOf(MyException.class);
+    }
+
+
+
+
 
     @TestConfiguration
     static class RollbackTestConfig{
@@ -42,7 +65,7 @@ public class RollbackTest {
         @Transactional
         public void checkedException() throws MyException {
             log.info("call checkedException");
-            throw new RuntimeException();
+            throw new MyException();
         }
         // 체크 예외 rollbackFor 지정 : 롤백
         @Transactional(rollbackFor = MyException.class)
