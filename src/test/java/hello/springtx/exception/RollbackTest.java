@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Slf4j
 public class RollbackTest {
 
     @Autowired
@@ -37,6 +38,8 @@ public class RollbackTest {
         Assertions.assertThatThrownBy(() -> {
             service.rollbackFor();
         }).isInstanceOf(MyException.class);
+
+         
     }
 
 
