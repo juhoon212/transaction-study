@@ -14,7 +14,7 @@ public class OrderService {
 
     //JPA는 트랜잭션 커밋 시점에 Order 데이터를 DB에 반영한다.
     @Transactional
-    public void order(Order order) {
+    public void order(Order order) throws NotEnoughMoneyException {
         log.info("order 호출");
         orderRepository.save(order);
 
@@ -25,7 +25,7 @@ public class OrderService {
         } else if (order.getUsername().equals("잔고부족")) {
             log.info("잔고 부족 비즈니스 예외 발생");
             order.setPayStatus("대기");
-            throw new NotEnoughMoneyException("잔고가 부족합니다")
+            throw new NotEnoughMoneyException("잔고가 부족합니다");
         } else {
             // 정상 승인
             log.info("정상 승인");
